@@ -45,4 +45,15 @@ body {
     .container {
         margin: 0 2%;
     }
+    .contentSection {
+        flex-direction: column;
+    }
+    .containerCards, .containerCharts {
+        width: 100%;
+        margin-bottom: 5px;
+        margin: 0;
+    }
+    .image {
+        margin-bottom: 20px;
+    }
 }

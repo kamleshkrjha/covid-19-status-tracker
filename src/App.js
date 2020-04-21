@@ -51,8 +51,8 @@ class App extends React.Component {
                 </div>
                 <footer>
                     <a href="https://github.com/kamleshkrjha/covid-19-status-tracker">Source Code</a>
-                    <a href="https://covid19.mathdro.id/api">Golbal Data Source</a>
-                    <a href="https://api.rootnet.in/covid19-in">Indian Data Source</a>
+                    <a href="https://github.com/mathdroid/covid19">Golbal Data Source</a>
+                    <a href="https://github.com/amodm/api-covid19-in">Indian Data Source</a>
                 </footer>
             </div>
         );

@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(250, 250, 250);
+    background-color: rgba(196, 170, 170, 0.5);
 }
 
 .container {
@@ -31,6 +31,8 @@ body {
 
 .containerCharts {
     width: 65%;
+    display: flex;
+    align-items: center;
 }
 
 .staticHeader {
@@ -41,13 +43,28 @@ body {
     width:75%;
 }
 
+footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+}
+
+footer a {
+    padding: 10px;
+}
+
+
 @media (max-width: 769px) {
     .container {
         margin: 0 2%;
     }
+
     .contentSection {
         flex-direction: column;
     }
+
     .containerCards, .containerCharts {
         width: 100%;
         margin-bottom: 5px;

@@ -34,7 +34,7 @@ class App extends React.Component {
         const { data, indianData } = this.state;
         return (
             <div className={cx(styles.container)}>
-                <img className={styles.image} src={image} alt="COVID-19" />
+                <header><img className={styles.image} src={image} alt="COVID-19" /></header>
                 <div className={cx(styles.contentSection)}>      
                     <div className={cx(styles.containerCharts, styles.flexCol)}>
                         <Charts province={this.state.province}/>
@@ -49,6 +49,11 @@ class App extends React.Component {
                         <Cards data={data} />
                     </div>  
                 </div>
+                <footer>
+                    <a href="https://github.com/kamleshkrjha/covid-19-status-tracker">Source Code</a>
+                    <a href="https://covid19.mathdro.id/api">Golbal Data Source</a>
+                    <a href="https://api.rootnet.in/covid19-in">Indian Data Source</a>
+                </footer>
             </div>
         );
     }

@@ -7,9 +7,9 @@ This is COVID-19 tracker site having cards section with latest data for India(an
 Also has a charts section showing daily timeline and per day data for India and it's various states. 
 
 ## Credits:
-Global Data [https://covid19.mathdro.id/api](https://covid19.mathdro.id/api)
+Global Data Source [https://github.com/mathdroid/covid19](https://github.com/mathdroid/covid19)
 
-Indian Data [https://api.rootnet.in/covid19-in](https://api.rootnet.in/covid19-in)
+Indian Data Source [https://github.com/amodm/api-covid19-in](https://github.com/amodm/api-covid19-in)
 
 Inspiration [https://www.youtube.com/watch?v=khJlrj3Y6Ls](https://www.youtube.com/watch?v=khJlrj3Y6Ls)
 

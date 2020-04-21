@@ -11,15 +11,15 @@ const getLineChart =  (dailyData, type = null, province = '') => {
       if(index) {
         const prevSet = dailyData[index-1];
         return {
-          confirmed: set.confirmed - prevSet.confirmed,
-          recovered: set.recovered - prevSet.recovered,
-          deaths: set.deaths - prevSet.deaths,
+          confirmed: (set.confirmed - prevSet.confirmed) > 0 ? (set.confirmed - prevSet.confirmed) : 0,
+          recovered: (set.recovered - prevSet.recovered) > 0 ? (set.recovered - prevSet.recovered) : 0,
+          deaths: (set.deaths - prevSet.deaths) > 0 ? (set.deaths - prevSet.deaths) : 0,
           date: set.date
          }
       }
       return set;
     });
-    chartHeader = province ? `${province} Per Day Data`: 'India Per Day Data';
+    chartHeader = province ? `${province} - Per Day Change`: ' India - Per Day Change';
   }
   chart =  (<Line
     options={{

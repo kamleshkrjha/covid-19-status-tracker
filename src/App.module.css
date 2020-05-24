@@ -7,12 +7,16 @@ body {
     /* justify-content: center; */
     align-items: center;
     flex-direction: column;
-    margin: 0 20px;
+    padding: 0 20px;
+    width: 100%;
 }
 
 .contentSection {
     display: flex;
     justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    width: 700px;
 }
 
 .flexCol {
@@ -25,14 +29,17 @@ body {
   }
 
 .containerCards {
-    width: 15%;
+   width:100%;
     margin: 0 2%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .containerCharts {
-    width: 65%;
     display: flex;
-    align-items: center;
+    width: 100%;
+    /* align-items: center; */
 }
 
 .staticHeader {

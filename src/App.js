@@ -35,19 +35,20 @@ class App extends React.Component {
         return (
             <div className={cx(styles.container)}>
                 <header><img className={styles.image} src={image} alt="COVID-19" /></header>
-                <div className={cx(styles.contentSection)}>      
+                <div className={cx(styles.contentSection)}> 
+                    <div className={cx(styles.containerCards)}>
+                        <Cards data={indianData} />
+                        <CountryPicker type="state" handleChange={this.handleStateChange}/>
+                    </div>       
                     <div className={cx(styles.containerCharts, styles.flexCol)}>
                         <Charts province={this.state.province}/>
                         <Charts type="timeline_perday" province={this.state.province}/>
                     </div>
-                    <div className={cx(styles.containerCards)}>
-                        <CountryPicker type="state" handleChange={this.handleStateChange}/>
-                        <Cards data={indianData} />
-                    </div>  
-                    <div className={cx(styles.containerCards)}>
+                    
+                    {/* <div className={cx(styles.containerCards)}>
                         <CountryPicker handleChange={this.handleCountryChange}/>
                         <Cards data={data} />
-                    </div>  
+                    </div>   */}
                 </div>
                 <footer>
                     <a href="https://github.com/kamleshkrjha/covid-19-status-tracker">Source Code</a>

@@ -9,9 +9,9 @@ const Cards = ({ data: {confirmed, recovered, deaths, lastUpdate, active }}) => 
         return 'Loading....';
     }
     return (
-        <div className={styles.container}>
-            <Grid container justify="center" >
-                <Grid item component={Card} xs={12} md={12} className={cx(styles.card, styles.infected)}>
+        <div>
+            <Grid container className={styles.container}>
+                <Grid item component={Card} xs={12} className={cx(styles.card, styles.infected)}>
                     <CardContent>
                         
                         <Typography variant="h5">

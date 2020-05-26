@@ -31,7 +31,7 @@ const getLineChart =  (dailyData, type = null, province = '') => {
       datasets: [{
         data: dailyData.map((data) => data.confirmed),
         label: 'Infected',
-        borderColor: '#3333ff',
+        borderColor: 'blue',
         fill: true,
       }, 
       {
@@ -43,7 +43,7 @@ const getLineChart =  (dailyData, type = null, province = '') => {
       {
         data: dailyData.map((data) => data.deaths),
         label: 'Deaths',
-        borderColor: 'black',
+        borderColor: 'red',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         fill: true,
       },

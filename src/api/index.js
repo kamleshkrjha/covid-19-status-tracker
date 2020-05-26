@@ -5,11 +5,14 @@ const localUrl = 'https://api.rootnet.in/covid19-in';
 
 export const fetchData = async (country) => {
     let modifiedUrl = url;
-    if(country) modifiedUrl = `${url}/countries/${country}`;
+    if (country) modifiedUrl = `${url}/countries/${country}`;
     try {
-        const { data: { confirmed, recovered, deaths, lastUpdate }} = await axios.get(modifiedUrl);
-        const active = confirmed.value-recovered.value-deaths.value;
-        return { confirmed: confirmed.value, recovered: recovered.value, deaths:  deaths.value, lastUpdate, active };
+        const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(modifiedUrl);
+        const active = confirmed.value - recovered.value - deaths.value;
+        const recoveryRate = recovered.value / confirmed.value * 100;
+        const mortalityRate = deaths.value / confirmed.value * 100;
+
+        return { confirmed: confirmed.value, recovered: recovered.value, deaths: deaths.value, lastUpdate, active, recoveryRate, mortalityRate };
     } catch (error) {
         return error;
     }
@@ -35,21 +38,21 @@ export const fetchStates = async () => {
 
 export const fetchDailyDataIndia = async (state) => {
     try {
-        const { data: { data: historicalData }} = await axios.get(`${localUrl}/stats/history`);
+        const { data: { data: historicalData } } = await axios.get(`${localUrl}/stats/history`);
         return !state ?
-        historicalData.map(({ summary, day:date }) => ({ confirmed: summary.total, deaths: summary.deaths, date, recovered: summary.discharged }))
-        : historicalData.map(({regional, day:date }) => {
-            const matched = regional.filter(region => region.loc === state)[0];
-            if(matched) {
-                return { 
-                    confirmed: matched.totalConfirmed , 
-                    recovered: matched.discharged, 
-                    deaths: matched.deaths,
-                    date
-                 }
-            }
-            return null;
-        }).filter(item => item !== null);
+            historicalData.map(({ summary, day: date }) => ({ confirmed: summary.total, deaths: summary.deaths, date, recovered: summary.discharged }))
+            : historicalData.map(({ regional, day: date }) => {
+                const matched = regional.filter(region => region.loc === state)[0];
+                if (matched) {
+                    return {
+                        confirmed: matched.totalConfirmed,
+                        recovered: matched.discharged,
+                        deaths: matched.deaths,
+                        date
+                    }
+                }
+                return null;
+            }).filter(item => item !== null);
     } catch (error) {
         return error;
     }
@@ -59,16 +62,23 @@ export const fetchLatestDataIndia = async (state) => {
     try {
         let finalData = {};
         const response = await axios.get(`${localUrl}/stats/latest`);
+        const testingData = await axios.get(`${localUrl}/stats/testing/latest`);
+        let samples;
         if (!state) {
-            const { data: { data : { summary: {total: confirmed, discharged:recovered, deaths} }}} = response;
-            finalData = { confirmed, recovered, deaths };
+            const { data: { data: { summary: { total: confirmed, discharged: recovered, deaths } }, lastRefreshed: lastUpdate } } = response;
+            finalData = { confirmed, recovered, deaths, lastUpdate };
         } else {
-            const { data: { data: { regional } } } = response;
-            const { totalConfirmed: confirmed, discharged:recovered, deaths} = regional.filter(region=>region.loc===state)[0];
-            finalData = { confirmed, recovered, deaths };
-        }   
-            const active = finalData.confirmed - finalData.recovered - finalData.deaths ;
-            return { ...finalData,  active }
+            const { data: { data: { regional }, lastRefreshed: lastUpdate } } = response;
+            const { totalConfirmed: confirmed, discharged: recovered, deaths } = regional.filter(region => region.loc === state)[0];
+            finalData = { confirmed, recovered, deaths, lastUpdate };
+        }
+
+        samples = testingData?.data?.data?.totalSamplesTested;
+
+        const active = finalData.confirmed - finalData.recovered - finalData.deaths;
+        const recoveryRate = finalData.recovered / finalData.confirmed * 100;
+        const mortalityRate = finalData.deaths / finalData.confirmed * 100;
+        return { ...finalData, active, recoveryRate, mortalityRate, samples }
     } catch (error) {
         return error;
     }
@@ -77,7 +87,7 @@ export const fetchLatestDataIndia = async (state) => {
 export const fetchTestData = async () => {
     try {
         const { data: { data } } = await axios.get(`${localUrl}/stats/testing/history`);
-        return data.map(({ totalIndividualsTested: tested, totalPositiveCases: positive , day:date}) => ({ tested, positive, date }));
+        return data.map(({ totalIndividualsTested: tested, totalPositiveCases: positive, day: date }) => ({ tested, positive, date }));
     } catch (error) {
         return error;
     }

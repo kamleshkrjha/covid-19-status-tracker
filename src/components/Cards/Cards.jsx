@@ -1,57 +1,42 @@
 import React from 'react';
 import { Grid, Card, CardContent, Typography } from '@material-ui/core';
-import CountUp  from 'react-countup';
+import CountUp from 'react-countup';
 import cx from 'classnames';
-import styles  from './Cards.module.css';
+import styles from './Cards.module.css';
 
-const Cards = ({ data: {confirmed, recovered, deaths, lastUpdate, active }}) => {
-    if(confirmed === undefined || null ) {
+
+const Cards = ({ data: { samples } }) => {
+    if (samples === undefined || null) {
         return 'Loading....';
+    }
+    const CardContents = [];
+    if (samples) {
+        CardContents.push({
+            title: 'India Total Tests',
+            value: samples,
+            class: 'info'
+        })
     }
     return (
         <div>
             <Grid container className={styles.container}>
-                <Grid item component={Card} xs={12} className={cx(styles.card, styles.infected)}>
-                    <CardContent>
-                        
-                        <Typography variant="h5">
-                            <CountUp start={0} end={confirmed} duration={2} separator="," gutterBottom />
-                            <Typography color="textSecondary" >Confirmed</Typography>
-                        </Typography>
-                        {/* <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography> */}
-                    </CardContent>
-                </Grid>
-                <Grid item component={Card} xs={12} md={12} className={cx(styles.card, styles.recovered)}>
-                    <CardContent>
-                        
-                        <Typography variant="h5">
-                            <CountUp start={0} end={recovered} duration={2} separator="," />
-                            <Typography color="textSecondary" >Recovered</Typography>
-                        </Typography>
-                        {/* <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography> */}
-                    </CardContent>
-                </Grid>
-                <Grid item component={Card} xs={12} md={12} className={cx(styles.card, styles.deaths)}>
-                    <CardContent>
-                        
-                        <Typography variant="h5">
-                            <CountUp start={0} end={deaths} duration={2} separator="," />
-                            <Typography color="textSecondary">Deaths</Typography>
-                        </Typography>
-                        {/* <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography> */}
-                    </CardContent>
-                </Grid>
-                <Grid item component={Card} xs={12} md={12} className={cx(styles.card, styles.active)}>
-                    <CardContent>
-                        
-                        <Typography variant="h5">
-                            <CountUp start={0} end={active} duration={2} separator="," />
-                            <Typography color="textSecondary" >Active</Typography>
-                        </Typography>
-                        {/* <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography> */}
-                    </CardContent>
-                </Grid>
+                {
+                    CardContents.map(content => (
+                        <Grid item component={Card} xs={12} className={cx(styles.card, styles[content.class])} key={content.title}>
+                            <CardContent>
+
+                                <Typography>
+                                    {content.title} : {' '}
+                                    <CountUp start={0} end={content.value} duration={2} separator="," decimals={content.decimals} gutterBottom style={{ fontSize: 18, fontWeight: 700 }}/>
+                                    
+                                </Typography>
+
+                            </CardContent>
+                        </Grid>
+                    ))
+                }
             </Grid>
+
         </div>
     );
 }

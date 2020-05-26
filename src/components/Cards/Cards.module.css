@@ -5,6 +5,7 @@
 .card {
     margin: 5px 5px !important;
     border-bottom: 5px solid;
+    overflow: visible !important;
 }
 
 .infected {
@@ -14,10 +15,13 @@
     border-color: green;
 }
 .deaths {
-    border-color: black;
+    border-color: red;
 }
 .active {
     border-color: yellowgreen;
+}
+.info {
+    border-color: black;
 }
 
 @media (max-width: 769px) {

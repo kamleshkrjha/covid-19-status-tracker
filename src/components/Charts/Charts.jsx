@@ -3,6 +3,7 @@ import { fetchDailyDataIndia } from './../../api';
 import { Line } from 'react-chartjs-2';
 
 import styles from './Charts.module.css';
+import cx from 'classnames';
 
 const getLineChart =  (dailyData, type = null, province = '') => {
   let chart, chartHeader = province ? `${province} Daily Timeline`: 'India Daily Timeline';
@@ -23,7 +24,8 @@ const getLineChart =  (dailyData, type = null, province = '') => {
   }
   chart =  (<Line
     options={{
-      title:{ display: true, text:  `${chartHeader}`}
+      title:{ display: true, text:  `${chartHeader}`},
+      maintainAspectRatio: false 
     }}
 
     data={{
@@ -68,7 +70,7 @@ const Charts = ({ province, type }) => {
   );
 
     return (
-        <div className={styles.container}>
+        <div className={cx(styles.container, styles.elevation)}>
             { lineChart }
         </div>
     );

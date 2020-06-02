@@ -63,6 +63,7 @@ export const fetchLatestDataIndia = async (state) => {
         let finalData = {};
         const response = await axios.get(`${localUrl}/stats/latest`);
         const testingData = await axios.get(`${localUrl}/stats/testing/latest`);
+        const contacts = await fetchContactsData(state);
         let samples;
         if (!state) {
             const { data: { data: { summary: { total: confirmed, discharged: recovered, deaths } }, lastRefreshed: lastUpdate } } = response;
@@ -78,16 +79,21 @@ export const fetchLatestDataIndia = async (state) => {
         const active = finalData.confirmed - finalData.recovered - finalData.deaths;
         const recoveryRate = finalData.recovered / finalData.confirmed * 100;
         const mortalityRate = finalData.deaths / finalData.confirmed * 100;
-        return { ...finalData, active, recoveryRate, mortalityRate, samples }
+        return { ...finalData, active, recoveryRate, mortalityRate, samples, contacts }
     } catch (error) {
         return error;
     }
 }
 
-export const fetchTestData = async () => {
+export const fetchContactsData = async (state) => {
     try {
-        const { data: { data } } = await axios.get(`${localUrl}/stats/testing/history`);
-        return data.map(({ totalIndividualsTested: tested, totalPositiveCases: positive, day: date }) => ({ tested, positive, date }));
+        //https://api.rootnet.in/covid19-in/contacts
+        const { data: { data: { contacts } } } = await axios.get(`${localUrl}/contacts`);
+        let region;
+        if (state) {
+            region = contacts.regional.filter(region => region.loc === state)[0];
+        }
+        return { primary: contacts.primary, region };
     } catch (error) {
         return error;
     }

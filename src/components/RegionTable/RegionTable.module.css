@@ -1,0 +1,51 @@
+.containerTable {
+    margin-bottom: 24px;
+    background-color: #fff;
+}
+
+.containerCharts {
+    display: flex;
+    width: 100%;
+    /* align-items: center; */
+    justify-content: space-between;
+   
+}
+
+.elevation {
+    box-shadow: 0 0 5px 0px black;
+    border-radius: 3px;
+}
+
+.table {
+    min-width: 700px;
+}
+
+.confirmed {
+    background-color: blue;
+    color: white !important;
+}
+
+.recovered {
+    background-color: green;
+    color: white !important;
+}
+
+.deaths {
+    background-color: red;
+    color:white !important;
+}
+
+.infoRecovery {
+    background-color: rgb(52, 94, 52);
+    color: white !important;
+}
+
+.infoMortality {
+    background-color: rgb(136, 17, 17);
+    color: white !important;
+}
+
+.active {
+    background-color: #609809;
+    color: white !important
+}

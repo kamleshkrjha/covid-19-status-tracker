@@ -1,15 +1,10 @@
 .container {
     display: flex;
     justify-content: center;
-    width: 700px;
-    height: 400px;
+    min-width: 300px;
+    min-height: 300px;
     margin-bottom: 10px;
-    margin-right: 10px;
     background-color: #fff;
-  }
-
-  .container:last-child {
-    margin-right: 0;
   }
 
 .elevation {
@@ -17,9 +12,13 @@
     border-radius: 3px;
 }
   
-  @media only screen and (max-width: 767px) {
+  @media only screen and (min-width: 768px) {
     .container {
-      min-width: 300px;
-      height: 300px;
+      width: 49%;
+      height: 400px;
+      margin-right: 2%;
+    }
+    .container:last-child {
+      margin-right: 0;
     }
   }

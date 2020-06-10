@@ -13,9 +13,13 @@ const Cards = ({ data: { samples, contacts } }) => {
 
     const CardContents = [];
     if (samples) {
+        //samples is hitorical testing data for last 2 days
+        //to show current total test and diff with previous test data
+
         CardContents.push({
-            title: 'India Total Tests',
-            value: samples,
+            title: 'Total Tests',
+            value: samples[1].totalSamplesTested,
+            value2: samples[1].totalSamplesTested - samples[0].totalSamplesTested,
             class: 'info'
         })
     }
@@ -56,6 +60,15 @@ const Cards = ({ data: { samples, contacts } }) => {
                             <Box component='span' className={styles.flexed}>
                                 <PhoneIcon style={{ marginRight: 10}}/>
                                 <Typography component='span' style={{ fontWeight: 700}}> {content.value} </Typography>
+                            </Box>
+                            )
+                            }
+                            { (typeof content.value2 === 'number')
+                            ? <CountUp start={0} end={content.value2} duration={2} separator="," decimals={content.decimals} style={{ marginLeft: 5, color: `${content.value2 > 0 ? 'green': 'red'}`}}/>
+                            :
+                            (
+                            <Box component='span' className={styles.flexed}>
+                                <Typography component='span'> {content.value2} </Typography>
                             </Box>
                             )
                             }

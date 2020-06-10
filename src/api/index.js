@@ -40,7 +40,7 @@ export const fetchDailyDataIndia = async (state) => {
     try {
         const { data: { data: historicalData } } = await axios.get(`${localUrl}/stats/history`);
         return !state ?
-            historicalData.map(({ summary, day: date }) => ({ confirmed: summary.total, deaths: summary.deaths, date, recovered: summary.discharged }))
+            historicalData.map(({ summary, day: date }) => ({ confirmed: summary.total, deaths: summary.deaths, date, recovered: summary.discharged, active: summary.total - summary.deaths - summary.discharged }))
             : historicalData.map(({ regional, day: date }) => {
                 const matched = regional.filter(region => region.loc === state)[0];
                 if (matched) {
@@ -48,6 +48,7 @@ export const fetchDailyDataIndia = async (state) => {
                         confirmed: matched.totalConfirmed,
                         recovered: matched.discharged,
                         deaths: matched.deaths,
+                        active: matched.totalConfirmed - matched.discharged - matched.deaths,
                         date
                     }
                 }
@@ -62,7 +63,7 @@ export const fetchLatestDataIndia = async (state) => {
     try {
         let finalData = {};
         const response = await axios.get(`${localUrl}/stats/latest`);
-        const testingData = await axios.get(`${localUrl}/stats/testing/latest`);
+        const testingData = await axios.get(`${localUrl}/stats/testing/history`);
         const contacts = await fetchContactsData(state);
         let samples;
         if (!state) {
@@ -74,7 +75,7 @@ export const fetchLatestDataIndia = async (state) => {
             finalData = { confirmed, recovered, deaths, lastUpdate };
         }
 
-        samples = testingData?.data?.data?.totalSamplesTested;
+        samples = testingData?.data?.data?.splice(-2);
 
         const active = finalData.confirmed - finalData.recovered - finalData.deaths;
         const recoveryRate = finalData.recovered / finalData.confirmed * 100;

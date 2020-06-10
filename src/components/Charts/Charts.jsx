@@ -5,6 +5,53 @@ import { Line } from 'react-chartjs-2';
 import styles from './Charts.module.css';
 import cx from 'classnames';
 
+const getDiff = (current, prev) => {
+  let diff = current - prev;
+  return isNaN(diff) ? 0 : diff;
+}
+
+const getDataset = (dailyData, type) => {
+  if(type) {
+    return [
+       {
+        data: dailyData.map((data) => data.confirmed),
+        label: 'Infected',
+        borderColor: 'blue',
+      },
+      {
+        data: dailyData.map((data) => data.active),
+        label: 'Active',
+        borderColor: '#6d4dce',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        fill: true
+      }]
+  }
+  return [
+      {
+        data: dailyData.map((data) => data.confirmed),
+        label: 'Infected',
+        borderColor: 'blue',
+      }, 
+      {
+        data: dailyData.map((data) => data.recovered),
+        label: 'recovered',
+        borderColor: 'green'
+      },
+      {
+        data: dailyData.map((data) => data.deaths),
+        label: 'Deaths',
+        borderColor: 'red'
+      },
+      {
+        data: dailyData.map((data) => data.active),
+        label: 'Active',
+        borderColor: '#6d4dce',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        fill: true
+      }
+    ]
+}
+
 const getLineChart =  (dailyData, type = null, province = '') => {
   let chart, chartHeader = province ? `${province} Daily Timeline`: 'India Daily Timeline';
   if (type) {
@@ -12,9 +59,10 @@ const getLineChart =  (dailyData, type = null, province = '') => {
       if(index) {
         const prevSet = dailyData[index-1];
         return {
-          confirmed: (set.confirmed - prevSet.confirmed) > 0 ? (set.confirmed - prevSet.confirmed) : 0,
-          recovered: (set.recovered - prevSet.recovered) > 0 ? (set.recovered - prevSet.recovered) : 0,
-          deaths: (set.deaths - prevSet.deaths) > 0 ? (set.deaths - prevSet.deaths) : 0,
+          confirmed: getDiff(set.confirmed, prevSet.confirmed),
+          recovered: getDiff(set.recovered, prevSet.recovered),
+          deaths: getDiff(set.deaths, prevSet.deaths),
+          active: getDiff(set.active, prevSet.active),
           date: set.date
          }
       }
@@ -30,26 +78,7 @@ const getLineChart =  (dailyData, type = null, province = '') => {
 
     data={{
       labels: dailyData.map(({ date }) => date),
-      datasets: [{
-        data: dailyData.map((data) => data.confirmed),
-        label: 'Infected',
-        borderColor: 'blue',
-        fill: true,
-      }, 
-      {
-        data: dailyData.map((data) => data.recovered),
-        label: 'recovered',
-        borderColor: 'green',
-        fill: true
-      },
-      {
-        data: dailyData.map((data) => data.deaths),
-        label: 'Deaths',
-        borderColor: 'red',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        fill: true,
-      },
-      ],
+      datasets: getDataset(dailyData, type),
     }}
   />)
   return chart;

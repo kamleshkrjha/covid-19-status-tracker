@@ -17,7 +17,7 @@ const RegionTable = ({ globalData, indianData, onRegionChange }) => {
 
   return (<TableContainer className={cx(styles.containerTable, styles.elevation)}>
             <Table aria-label="simple table" className={styles.table}>
-              <TableHead>
+              <TableHead style={{ fontWeight: 700 }}>
                 <TableRow>
                   <TableCell>Region</TableCell>
                   <TableCell align="center" className={styles.confirmed}>Confirmed</TableCell>

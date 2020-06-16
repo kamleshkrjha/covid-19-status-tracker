@@ -5,14 +5,15 @@ import cx from 'classnames';
 
 import image from './images/image.png';
 
-import { Cards, Charts, RegionTable } from './components';
+import { Cards, Charts, RegionTable, CountryPicker } from './components';
 
 class App extends React.Component {
 
   state = {
     globalData: {},
     indianData: {},
-    province: ''
+    province: null,
+    country: null
   }
 
   async componentDidMount() {
@@ -22,7 +23,7 @@ class App extends React.Component {
   }
 
   handleCountryChange = async (country) => {
-    this.setState({ globalData: await fetchData(country) });
+    this.setState({ globalData: await fetchData(country), country });
   };
 
   handleStateChange = async (state) => {
@@ -37,9 +38,15 @@ class App extends React.Component {
     const { globalData, indianData, province } = this.state;
     return (
       <div className={cx(styles.container)}>
-        <header><img className={styles.image} src={image} alt="COVID-19" /></header>
+        <header className={styles.headerSection}>
+          <img className={styles.image} src={image} alt="COVID-19" />
+          <div className={styles.regionSelectorSection}>
+            <CountryPicker handleChange={this.handleCountryChange.bind(this)} />
+            <CountryPicker type="state" handleChange={this.handleStateChange.bind(this)} />
+          </div>
+        </header>
         <div className={cx(styles.contentSection)}>
-          <RegionTable globalData={globalData} indianData={indianData} onRegionChange={this.onRegionChange.bind(this)} />
+          <RegionTable globalData={globalData} indianData={indianData} province={this.state.province} country={this.state.country} />
           <Cards data={indianData}></Cards>
           <div className={cx(styles.containerCharts)}>
             <Charts province={province} />

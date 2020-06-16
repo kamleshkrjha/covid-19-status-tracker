@@ -54,9 +54,9 @@ class App extends React.Component {
           </div>
         </div>
         <footer>
-          <a href="https://github.com/kamleshkrjha/covid-19-status-tracker" target="_blank" >Source Code</a>
-          <a href="https://github.com/mathdroid/covid19" target="_blank" >Golbal Data Source</a>
-          <a href="https://github.com/amodm/api-covid19-in" target="_blank" >Indian Data Source</a>
+          <a href="https://github.com/kamleshkrjha/covid-19-status-tracker" target="_blank" rel="noopener noreferrer">Source Code</a>
+          <a href="https://github.com/mathdroid/covid19" target="_blank" rel="noopener noreferrer">Golbal Data Source</a>
+          <a href="https://github.com/amodm/api-covid19-in" target="_blank" rel="noopener noreferrer">Indian Data Source</a>
         </footer>
       </div>
     );

@@ -20,6 +20,17 @@ class App extends React.Component {
     const fetchedData = await fetchData();
     const fetchedIndianData = await fetchLatestDataIndia();
     this.setState({ globalData: fetchedData, indianData: fetchedIndianData });
+    //refresh page after interval
+    this.startRefreshTimer();
+  }
+
+  startRefreshTimer = () => {
+    let timer = setTimeout(() => {
+      timer = null;
+      this.handleCountryChange(this.state.country);
+      this.handleStateChange(this.state.province);
+      this.startRefreshTimer();
+    }, 5 * 60 * 1000);
   }
 
   handleCountryChange = async (country) => {

@@ -17,7 +17,7 @@ const CountryPicker = ({ handleChange, type }) => {
     }, [type]);
     
     return (
-       <FormControl style={{paddingLeft: 10, paddingRight: 10 }}>
+       <FormControl style={{paddingLeft: 10, paddingRight: 10, flexDirection:'row' }}>
            <NativeSelect defaultValue="" onChange={(e) => handleChange(e.target.value)}>
                 <option value="">{type === 'state'? 'India' : 'World'}</option>
                 { countries.map((name, i) => (<option key={i} value={name}>{name}</option>)) }

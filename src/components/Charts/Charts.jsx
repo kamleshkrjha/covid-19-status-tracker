@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { fetchDailyDataIndia } from './../../api';
 import { Line } from 'react-chartjs-2';
 
@@ -83,6 +84,9 @@ const getLineChart =  (dailyData, type = null, province = '') => {
   />)
   return chart;
 }
+
+const mapStateToProps = (state, ownProps) =>  { return { province: state.states.province } };
+
 const Charts = ({ province, type }) => {
     const [dailyData, setDailyData] = useState({});
 
@@ -105,4 +109,6 @@ const Charts = ({ province, type }) => {
     );
 }
 
-export default Charts; 
+export default connect(
+  mapStateToProps
+)(Charts); 

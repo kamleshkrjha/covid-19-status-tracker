@@ -1,11 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Grid, Card, CardContent, Typography, Box } from '@material-ui/core';
 import CountUp from 'react-countup';
 import cx from 'classnames';
 import styles from './Cards.module.css';
 import PhoneIcon from '@material-ui/icons/Phone';
 
-
+const mapStateToProps = (state, ownProps) => {
+  let dataFromState = state.states.indianData; //useSelector here
+    if(!dataFromState.samples) dataFromState = ownProps.data;
+  return { data: dataFromState };
+}
 const Cards = ({ data: { samples, contacts } }) => {
     if (samples === undefined || null) {
         return 'Loading....';
@@ -80,4 +85,6 @@ const Cards = ({ data: { samples, contacts } }) => {
     );
 }
 
-export default Cards; 
+export default connect(
+    mapStateToProps
+)(Cards); 

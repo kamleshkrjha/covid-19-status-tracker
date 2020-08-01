@@ -19,7 +19,7 @@ const CountryPicker = ({ type }) => {
     }, [type]);
     
     return (
-       <FormControl style={{ paddingLeft: 10, paddingRight: 10 }}>
+       <FormControl style={{ paddingLeft: 10, paddingRight: 10, flexDirection:'row' }}>
            <NativeSelect defaultValue="" 
             onChange={
                 e => dispatch({ type: type ? sagaActions.FETCH_INDIAN_SAGA : sagaActions.FETCH_GLOBAL_SAGA, payload: e.target.value })

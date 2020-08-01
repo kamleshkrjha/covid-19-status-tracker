@@ -1,8 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Table, TableBody, TableHead, TableContainer, TableCell, TableRow } from '@material-ui/core';
 import cx from 'classnames';
 import CountUp from 'react-countup';
 import styles from './RegionTable.module.css';
+
+const mapStateToProps = (state, ownProps) => { 
+  const { countries: { globalData, country }, states: { indianData, province }} = state;
+  return {
+    globalData: Object.keys(globalData).length ? globalData : ownProps.globalData,
+    country,
+    province,
+    indianData: Object.keys(indianData).length ? indianData : ownProps.indianData,
+  }
+
+}
 
 const RegionTable = ({ globalData, indianData, province, country }) => {
 
@@ -55,4 +67,6 @@ const RegionTable = ({ globalData, indianData, province, country }) => {
           </TableContainer>)
 }
 
-export default RegionTable;
+export default connect(
+  mapStateToProps
+)(RegionTable);

@@ -1,29 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { NativeSelect, FormControl } from '@material-ui/core';
 
-import { fetchCountries, fetchStates } from './../../api';
+import { fetchCountries, fetchStates } from './../../api'; // initial data load
+import { useDispatch } from 'react-redux';
+import sagaActions from '../../sagaActions';
 
-const CountryPicker = ({ handleChange, type }) => {
-    const [countries, setCountries] = useState([]);
+
+const CountryPicker = ({ type }) => {
+    const [items, setItems] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-            const fetchApi = async () => {
-                type === 'state' ? setCountries(await fetchStates()) : 
-                setCountries(await fetchCountries());
-            }
-    
-            fetchApi();
-
+        const fetchApi = async () => {
+            type === 'state' ? setItems(await fetchStates()) : 
+            setItems(await fetchCountries());
+        }
+        fetchApi();
     }, [type]);
     
     return (
-       <FormControl style={{paddingLeft: 10, paddingRight: 10, flexDirection:'row' }}>
-           <NativeSelect defaultValue="" onChange={(e) => handleChange(e.target.value)}>
+       <FormControl style={{ paddingLeft: 10, paddingRight: 10 }}>
+           <NativeSelect defaultValue="" 
+            onChange={
+                e => dispatch({ type: type ? sagaActions.FETCH_INDIAN_SAGA : sagaActions.FETCH_GLOBAL_SAGA, payload: e.target.value })
+            }
+            >
                 <option value="">{type === 'state'? 'India' : 'World'}</option>
-                { countries.map((name, i) => (<option key={i} value={name}>{name}</option>)) }
+                { items.map((name, i) => (<option key={i} value={name}>{name}</option>)) }
            </NativeSelect>
        </FormControl>
     );
 }
 
-export default CountryPicker; 
+export default CountryPicker;

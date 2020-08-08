@@ -4,6 +4,7 @@ import { fetchData, fetchLatestDataIndia } from './api';
 import cx from 'classnames';
 
 import image from './images/image.png';
+import coronaImg from './images/corona.png';
 
 import { Cards, Charts, RegionTable, CountryPicker } from './components';
 
@@ -25,6 +26,7 @@ const App = () => {
     <div className={cx(styles.container)}>
       <header className={styles.headerSection}>
         <img className={styles.image} src={image} alt="COVID-19" />
+        <img className={styles.rotating} src={coronaImg} alt="covid-rotating" />
         <div className={styles.regionSelectorSection}>
           <CountryPicker />
           <CountryPicker type="state" />
